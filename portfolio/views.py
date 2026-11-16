@@ -1,3 +1,7 @@
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.views import RedirectURLMixin
+from django.views.generic.edit import FormView
 from django.contrib.auth.mixins import UserPassesTestMixin
 from .permissions import can_manage_posts
 from django.contrib.auth.decorators import login_required
@@ -7,6 +11,24 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from .forms import PostForm
 from .models import Category, Post
+
+
+class SignUp(RedirectURLMixin, FormView):
+    template_name = "signup.html"
+    form_class = UserCreationForm
+    next_page = "home"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(self.get_success_url())
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(next=self.get_redirect_url(), **kwargs)
+
+    def form_valid(self, form):
+        login(self.request, form.save())
+        return super().form_valid(form)
 
 
 class PostList(ListView):
@@ -78,5 +100,6 @@ def comment_create(request, pk):
         comment.save()
         return redirect("post_detail", pk=pk)
     return render(request, "comment_form.html", {"form": form, "post": post})
+
 
 

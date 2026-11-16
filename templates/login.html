@@ -2,5 +2,7 @@
 {% block main %}
 <h2>Entrar no portfólio</h2>
 <form method="post">{% csrf_token %}{{ form.as_p }}<input type="hidden" name="next" value="{{ next }}"><button>Entrar</button></form>
+<p><a href="{% url 'signup' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Criar conta</a></p>
 {% endblock %}
+
 

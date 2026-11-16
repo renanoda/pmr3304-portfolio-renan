@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block main %}
+<h2>Criar conta</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit">Criar conta</button>
+</form>
+<p>Já tem uma conta? <a href="{% url 'login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Entrar</a></p>
+{% endblock %}
