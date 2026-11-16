@@ -3,4 +3,16 @@
 <article><h2>{{ post.title }}</h2><time>{{ post.date|date:"d/m/Y H:i" }}</time>
 {{ post.content|safe }}</article>
 <p><a href="{% url 'post_update' post.pk %}">Editar projeto</a> · <a href="{% url 'post_delete' post.pk %}">Excluir projeto</a></p>
+<section><h3>Comentários</h3>
+{% for comment in post.comments.all %}
+<article><strong>{{ comment.author.username }}</strong> · <time>{{ comment.date|date:"d/m/Y H:i" }}</time>
+{{ comment.text|linebreaks }}</article>
+{% empty %}<p>Ainda não há comentários.</p>{% endfor %}
+<a href="{% url 'comment_create' post.pk %}">Adicionar comentário</a>
+{% if user.is_authenticated %}
+<form action="{% url 'comment_create' post.pk %}" method="post">{% csrf_token %}
+<label>Comentário <textarea name="text" required></textarea></label>
+<button>Publicar comentário</button></form>{% endif %}
+</section>
 {% endblock %}
+
