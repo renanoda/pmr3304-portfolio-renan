@@ -1,0 +1,16 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfólio de Renan Oda</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<header><h1>Portfólio de Renan Oda</h1>
+<nav><ul><li><a href="{% url 'post_list' %}">Projetos</a></li>
+<li><a href="{% url 'post_create' %}">Novo projeto</a></li></ul></nav></header>
+<main>{% block main %}{% endblock %}</main>
+<footer>Renan Eizo Oda · Engenharia Mecatrônica · Escola Politécnica da USP</footer>
+</body></html>
