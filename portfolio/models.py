@@ -3,7 +3,20 @@ from django.db import models
 from django.utils import timezone
 
 
+class Category(models.Model):
+    name = models.CharField("Nome", max_length=100, unique=True)
+    description = models.TextField("Descrição")
+
+    class Meta:
+        ordering = ["name"]
+        verbose_name = "categoria"
+
+    def __str__(self):
+        return self.name
+
+
 class Post(models.Model):
+    categories = models.ManyToManyField(Category, related_name="posts", verbose_name="Categorias", blank=True)
     title = models.CharField("Título", max_length=200)
     content = models.TextField("Conteúdo em HTML")
     date = models.DateTimeField("Data de publicação", default=timezone.now)

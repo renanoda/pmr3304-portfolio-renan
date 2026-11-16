@@ -4,13 +4,24 @@ from .forms import CommentForm
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from .forms import PostForm
-from .models import Post
+from .models import Category, Post
 
 
 class PostList(ListView):
     model = Post
     template_name = "list.html"
     context_object_name = "posts"
+
+
+class CategoryList(ListView):
+    model = Category
+    template_name = "categories.html"
+    context_object_name = "categories"
+
+
+def category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    return render(request, "list.html", {"category": category, "posts": category.posts.all()})
 
 
 class PostDetail(DetailView):
