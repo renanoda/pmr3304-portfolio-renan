@@ -61,6 +61,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'portfolio.permissions.portfolio_permissions',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -127,3 +128,6 @@ MAILERS = {
     },
 }
 
+
+PORTFOLIO_ADMIN_USERNAME = 'admin_lab'
+LOGIN_REDIRECT_URL = 'home'

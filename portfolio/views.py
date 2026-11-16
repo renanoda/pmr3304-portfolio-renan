@@ -1,3 +1,5 @@
+from django.contrib.auth.mixins import UserPassesTestMixin
+from .permissions import can_manage_posts
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from .forms import CommentForm
@@ -36,7 +38,12 @@ class PostDetail(DetailView):
     template_name = "detail.html"
 
 
-class PostCreate(CreateView):
+class ProjectAdminRequired(UserPassesTestMixin):
+    def test_func(self):
+        return can_manage_posts(self.request.user)
+
+
+class PostCreate(ProjectAdminRequired, CreateView):
     model = Post
     form_class = PostForm
     template_name = "form.html"
@@ -45,7 +52,7 @@ class PostCreate(CreateView):
         return reverse("post_detail", args=[self.object.pk])
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(ProjectAdminRequired, UpdateView):
     model = Post
     form_class = PostForm
     template_name = "form.html"
@@ -54,7 +61,7 @@ class PostUpdate(UpdateView):
         return reverse("post_detail", args=[self.object.pk])
 
 
-class PostDelete(DeleteView):
+class PostDelete(ProjectAdminRequired, DeleteView):
     model = Post
     template_name = "delete.html"
     success_url = reverse_lazy("post_list")
@@ -71,4 +78,5 @@ def comment_create(request, pk):
         comment.save()
         return redirect("post_detail", pk=pk)
     return render(request, "comment_form.html", {"form": form, "post": post})
+
 

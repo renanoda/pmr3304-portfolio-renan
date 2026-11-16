@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block main %}
-<h2>Entrar para comentar</h2>
+<h2>Entrar no portfólio</h2>
 <form method="post">{% csrf_token %}{{ form.as_p }}<input type="hidden" name="next" value="{{ next }}"><button>Entrar</button></form>
 {% endblock %}
+

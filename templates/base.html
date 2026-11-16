@@ -14,7 +14,9 @@
 <li><a href="{% url 'about' %}">Sobre mim</a></li>
 <li><a href="{% url 'post_list' %}">Projetos</a></li>
 <li><a href="{% url 'category_list' %}">Categorias</a></li>
-<li><a href="{% url 'post_create' %}">Novo projeto</a></li></ul></nav></header>
+{% if can_manage_posts %}<li><a href="{% url 'post_create' %}">Novo projeto</a></li>{% endif %}
+{% if not user.is_authenticated %}<li><a href="{% url 'login' %}?next={{ request.path|urlencode }}">Entrar</a></li>{% endif %}</ul></nav></header>
 <main class="{% block main_class %}{% endblock %}">{% block main %}{% endblock %}</main>
 <footer>Renan Eizo Oda · Engenharia Mecatrônica · Escola Politécnica da USP</footer>
 </body></html>
+
