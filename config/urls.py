@@ -4,6 +4,8 @@ from django.urls import path
 from portfolio import views
 
 urlpatterns = [
+    path("categorias/", views.CategoryList.as_view(), name="category_list"),
+    path("categorias/<int:pk>/", views.category_detail, name="category_detail"),
     path("accounts/login/", LoginView.as_view(template_name="login.html"), name="login"),
     path("projetos/<int:pk>/comentar/", views.comment_create, name="comment_create"),
     path("admin/", admin.site.urls),
