@@ -486,3 +486,23 @@ footer p {
         height: 200px;
     }
 }
+.category-card {
+    display: block;
+    color: #333;
+    text-decoration: none;
+}
+
+.category-card:hover,
+.category-card:focus-visible {
+    border-color: #183153;
+}
+
+.category-card:hover h3,
+.category-card:focus-visible h3 {
+    text-decoration: underline;
+}
+
+.category-card p {
+    margin: 0;
+    line-height: 1.6;
+}

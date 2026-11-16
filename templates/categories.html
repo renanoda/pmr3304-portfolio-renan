@@ -1,7 +1,22 @@
 {% extends "base.html" %}
+{% block main_class %}list-main{% endblock %}
 {% block main %}
-<h2>Categorias</h2>
-<ul>{% for category in categories %}
-<li><a href="{% url 'category_detail' category.pk %}">{{ category.name }}</a> — {{ category.description }}</li>
-{% empty %}<li>Nenhuma categoria cadastrada.</li>{% endfor %}</ul>
+<section class="list-page">
+    <h2>Categorias</h2>
+    <div class="project-grid">
+        {% for category in categories %}
+        <a class="project-card category-card" href="{% url 'category_detail' category.pk %}">
+            {% with post=category.posts.all.0 %}
+                {% if post %}{% with cover=post.cover_url %}
+                    {% if cover %}<img src="{{ cover }}" alt="">{% endif %}
+                {% endwith %}{% endif %}
+            {% endwith %}
+            <div class="project-card-content">
+                <h3>{{ category.name }}</h3>
+                <p>{{ category.description }}</p>
+            </div>
+        </a>
+        {% empty %}<p>Nenhuma categoria cadastrada.</p>{% endfor %}
+    </div>
+</section>
 {% endblock %}

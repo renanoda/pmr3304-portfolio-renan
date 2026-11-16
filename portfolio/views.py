@@ -21,7 +21,7 @@ class Home(PostList):
 
 
 class CategoryList(ListView):
-    model = Category
+    queryset = Category.objects.prefetch_related("posts")
     template_name = "categories.html"
     context_object_name = "categories"
 
@@ -71,3 +71,4 @@ def comment_create(request, pk):
         comment.save()
         return redirect("post_detail", pk=pk)
     return render(request, "comment_form.html", {"form": form, "post": post})
+
