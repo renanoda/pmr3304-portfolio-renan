@@ -2,7 +2,6 @@
 {% block main %}
 <h2>{% if post %}Editar projeto{% else %}Novo projeto{% endif %}</h2>
 <form method="post">{% csrf_token %}
-<p><label>Título <input name="title" value="{{ post.title }}"></label></p>
-<p><label>Conteúdo em HTML <textarea name="content">{{ post.content }}</textarea></label></p>
+{{ form.as_p }}
 <button>Salvar</button></form>
 {% endblock %}

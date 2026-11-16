@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from .forms import PostForm
 from .models import Post
 
 
@@ -11,20 +12,19 @@ def post_detail(request, pk):
 
 
 def post_create(request):
-    if request.method == "POST":
-        post = Post.objects.create(title=request.POST["title"], content=request.POST["content"])
-        return redirect("post_detail", pk=post.pk)
-    return render(request, "form.html")
+    return edit_post(request)
 
 
 def post_update(request, pk):
-    post = get_object_or_404(Post, pk=pk)
-    if request.method == "POST":
-        post.title = request.POST["title"]
-        post.content = request.POST["content"]
-        post.save()
-        return redirect("post_detail", pk=pk)
-    return render(request, "form.html", {"post": post})
+    return edit_post(request, get_object_or_404(Post, pk=pk))
+
+
+def edit_post(request, post=None):
+    form = PostForm(request.POST if request.method == "POST" else None, instance=post)
+    if request.method == "POST" and form.is_valid():
+        saved = form.save()
+        return redirect("post_detail", pk=saved.pk)
+    return render(request, "form.html", {"form": form, "post": post})
 
 
 def post_delete(request, pk):
@@ -33,3 +33,4 @@ def post_delete(request, pk):
         post.delete()
         return redirect("post_list")
     return render(request, "delete.html", {"post": post})
+
