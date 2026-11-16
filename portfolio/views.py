@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import RedirectURLMixin
@@ -10,7 +11,7 @@ from .forms import CommentForm
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from .forms import PostForm
-from .models import Category, Post
+from .models import Category, Post, PostCover
 
 
 class SignUp(RedirectURLMixin, FormView):
@@ -103,3 +104,8 @@ def comment_create(request, pk):
 
 
 
+
+
+def post_cover(request, pk):
+    cover = get_object_or_404(PostCover, post_id=pk)
+    return HttpResponse(bytes(cover.data), content_type=cover.content_type)

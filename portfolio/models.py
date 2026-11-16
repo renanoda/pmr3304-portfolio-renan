@@ -58,3 +58,8 @@ class Comment(models.Model):
     def __str__(self):
         return f"{self.author} — {self.post}"
 
+
+class PostCover(models.Model):
+    post = models.OneToOneField(Post, on_delete=models.CASCADE, related_name="uploaded_cover")
+    data = models.BinaryField()
+    content_type = models.CharField(max_length=20)

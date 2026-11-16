@@ -506,3 +506,11 @@ footer p {
     margin: 0;
     line-height: 1.6;
 }
+
+.post-cover, .post-cover-preview {
+    display: block;
+    max-width: 100%;
+    max-height: 420px;
+    margin: 1rem 0;
+}
+.post-cover-preview { max-height: 160px; }

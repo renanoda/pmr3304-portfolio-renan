@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 {% block main %}
 <h2>{% if post %}Editar projeto{% else %}Novo projeto{% endif %}</h2>
-<form method="post">{% csrf_token %}
+{% if post.cover_url %}<p>Capa atual</p><img class="post-cover-preview" src="{{ post.cover_url }}" alt="Capa atual do projeto">{% endif %}
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
 {{ form.as_p }}
 <button>Salvar</button></form>
 {% endblock %}
+
