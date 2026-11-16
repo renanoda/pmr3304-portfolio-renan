@@ -1,8 +1,13 @@
 {% extends "base.html" %}
+{% block main_class %}list-main{% endblock %}
 {% block main %}
-{% if category %}<h2>{{ category.name }}</h2><p>{{ category.description }}</p>
-{% else %}<h2>Projetos e experiências</h2>{% endif %}
-<ul>{% for post in posts %}
-<li><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></li>
-{% empty %}<li>Nenhum projeto publicado.</li>{% endfor %}</ul>
+<section class="list-page">
+<h2>{% if category %}{{ category.name }}{% else %}Projetos e experiências{% endif %}</h2>
+<p class="list-intro">{% if category %}{{ category.description }}{% else %}Nesta seção estão reunidas algumas experiências acadêmicas, internacionais e projetos que contribuíram para minha formação.{% endif %}</p>
+<div class="project-grid">{% for post in posts %}
+<article class="project-card">
+{% with cover=post.cover_url %}{% if cover %}<img src="{{ cover }}" alt="">{% endif %}{% endwith %}
+<div class="project-card-content"><h3><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h3></div>
+</article>
+{% empty %}<p>Nenhum projeto publicado.</p>{% endfor %}</div></section>
 {% endblock %}

@@ -1,3 +1,16 @@
+from html.parser import HTMLParser
+
+
+class CoverParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.source = ""
+
+    def handle_starttag(self, tag, attrs):
+        if tag == "img" and not self.source:
+            self.source = dict(attrs).get("src") or ""
+
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -23,6 +36,12 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-date", "-pk"]
+
+    @property
+    def cover_url(self):
+        parser = CoverParser()
+        parser.feed(self.content)
+        return parser.source
 
     def __str__(self):
         return self.title

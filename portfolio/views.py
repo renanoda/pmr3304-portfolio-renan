@@ -13,6 +13,13 @@ class PostList(ListView):
     context_object_name = "posts"
 
 
+class Home(PostList):
+    template_name = "home.html"
+
+    def get_queryset(self):
+        return super().get_queryset()[:3]
+
+
 class CategoryList(ListView):
     model = Category
     template_name = "categories.html"

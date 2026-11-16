@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block main_class %}home-main{% endblock %}
+{% block main %}
+<section class="hero">
+    <div class="hero-image"><img src="{% static 'images/perfil.jpg' %}" alt="Foto de Renan Oda"></div>
+    <div class="hero-text">
+        <p class="hero-intro">OLÁ, SEJA BEM-VINDO!</p>
+        <h2>Estudante de Engenharia Mecatrônica da Poli-USP</h2>
+        <p>Bem-vindo ao meu portfólio pessoal.</p>
+        <a class="hero-button" href="{% url 'post_list' %}">Conheça meu trabalho →</a>
+    </div>
+</section>
+<section class="highlights">
+    <div class="section-title"><p>DESTAQUES</p></div>
+    <div class="highlight-grid">{% for post in posts %}
+        <article class="highlight-card">
+            {% with cover=post.cover_url %}{% if cover %}<img src="{{ cover }}" alt="">{% endif %}{% endwith %}
+            <div><h3>{{ post.title }}</h3><p>{{ post.content|striptags|truncatewords:16 }}</p>
+            <a href="{% url 'post_detail' post.pk %}">Saiba mais →</a></div>
+        </article>
+    {% empty %}<p>Nenhum projeto publicado.</p>{% endfor %}</div>
+</section>
+{% endblock %}
