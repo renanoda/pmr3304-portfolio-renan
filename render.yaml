@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: pmr3304-portfolio-renan
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: python manage.py migrate --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT
+    healthCheckPath: /projetos/
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PORTFOLIO_ADMIN_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: pmr3304-portfolio-db
+          property: connectionString
+databases:
+  - name: pmr3304-portfolio-db
+    plan: free
+    ipAllowList: []
